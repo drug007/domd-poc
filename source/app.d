@@ -3,6 +3,69 @@ module app;
 import std.typecons : Flag, Yes, No;
 import renderer : render;
 
+void singleItem(Flag!"runTest" runTest = Yes.runTest)
+{
+	import std.stdio;
+	import std.array : front;
+	import common : makeDom, DomNode, printDom;
+
+	static struct Data
+	{
+		// string item0 = "item0", item1 = "item1", item2 = "item2", item3 = "item3";
+	}
+
+	Data data;
+
+	auto root = new DomNode(false, null);
+	{
+		import common : Direction;
+
+		root.name = "root";
+		root.attributes.direction = Direction.column;
+		root.attributes.margin = 200;
+		root.attributes.padding = 300;
+	}
+
+	writeln;
+
+	import walker : Walker;
+	import common : Direction, Alignment, Justification;
+	Walker walker;
+	with (walker)
+	{
+		with(area)
+		{
+			x = y = 0;
+			w = 640;
+			h = 480;
+			margin = 10;
+			padding = 10;
+		}
+		direction = Direction.column;
+		alignment = Alignment.stretch;
+		justification = Justification.around;
+		wrapping = false;
+	}
+	walker.render(data, root);
+	writeln;
+
+	walker.renderlog.render("single");
+
+	if (!runTest)
+		return;
+
+	import std.algorithm : each;
+	import std.array : popFront;
+	import common;
+
+	auto log = walker.renderlog;
+	log.each!writeln;
+
+	assert(log.front.name == "root");
+	// assert(log.front.area == WorkArea(0, 0, 640, 480, 40, 60));
+	assert(log.front.direction == Direction.column);
+}
+
 void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 {
 	import std.stdio;
@@ -457,6 +520,7 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 
 void main()
 {
+	singleItem(Yes.runTest);
 	itemInRow(No.runTest);
 	itemInColumn(No.runTest);
 	complexCase(No.runTest);
