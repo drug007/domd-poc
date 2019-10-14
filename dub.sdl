@@ -1,0 +1,7 @@
+name "treeview"
+description "Example of TreeView using"
+authors "drug007"
+copyright "Copyright © 2019, drug007"
+license "BSL"
+
+dependency "printed" version="~>0.0.12"

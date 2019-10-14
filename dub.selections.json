@@ -1,0 +1,13 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"binrange": "1.0.3",
+		"dplug": "9.0.9",
+		"gfm": "8.0.1",
+		"intel-intrinsics": "1.2.0",
+		"isfreedesktop": "0.1.1",
+		"printed": "0.0.12",
+		"standardpaths": "0.8.1",
+		"xdgpaths": "0.2.5"
+	}
+}
