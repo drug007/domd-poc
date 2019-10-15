@@ -16,6 +16,23 @@ struct WidgetRange
 		assert(!delta.isNaN);
 	}
 
+	@disable this();
+
+	this(float start, float marginBorderPadding, float range, size_t childCount)
+	{
+		x = start + marginBorderPadding;
+		if (childCount)
+		{
+			delta = (range - 2*marginBorderPadding)/childCount;
+			xend = x+range - marginBorderPadding;
+		}
+		else
+		{
+			delta = (range - 2*marginBorderPadding);
+			xend = float.nan;
+		}
+	}
+
 	bool empty() const
 	{
 		return x >= xend;
@@ -130,15 +147,15 @@ struct Walker
 			final switch (direction)
 			{
 				case Direction.row:
-					xWidgetRange ~= WidgetRange(area.x + area.margin + area.padding, (area.w - 2*(area.margin + area.padding))/dom.child.length, area.x+area.w - 2*(area.margin + area.padding));
-					yWidgetRange ~= WidgetRange(area.y + area.margin + area.padding, area.h - 2*(area.margin + area.padding), float.nan);
+					xWidgetRange ~= WidgetRange(area.x, area.margin + area.padding, area.w, dom.child.length);
+					yWidgetRange ~= WidgetRange(area.y, area.margin + area.padding, area.h, 0);
 					break;
 				case Direction.rowReverse:
 					assert(0, "not implemented");
 					// break;
 				case Direction.column:
-					xWidgetRange ~= WidgetRange(area.x + area.margin + area.padding, area.w - 2*(area.margin + area.padding), float.nan);
-					yWidgetRange ~= WidgetRange(area.y + area.margin + area.padding, (area.h - 2*(area.margin + area.padding))/dom.child.length, area.y+area.h - 2*(area.margin + area.padding));
+					xWidgetRange ~= WidgetRange(area.x, area.margin + area.padding, area.w, 0);
+					yWidgetRange ~= WidgetRange(area.y, area.margin + area.padding, area.h, dom.child.length);
 					break;
 				case Direction.columnReverse:
 					assert(0, "not implemented");
