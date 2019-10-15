@@ -21,6 +21,15 @@ struct WidgetRange
 	this(float start, float marginBorderPadding, float range, size_t childCount)
 	{
 		x = start + marginBorderPadding;
+		// x SHALL NOT BE greater than the widget size
+		if (x > start + range)
+		{
+			x = start + range;
+			delta = 0;
+			xend = x;
+			return;
+		}
+
 		if (childCount)
 		{
 			delta = (range - 2*marginBorderPadding)/childCount;
@@ -133,13 +142,13 @@ struct Walker
 			auto a = area;
 			a.x += area.margin;
 			a.y += area.margin;
-			a.w -= area.margin*2;
-			a.h -= area.margin*2;
+			a.w -= area.margin*2; if (a.w < 0) a.w = 0;
+			a.h -= area.margin*2; if (a.h < 0) a.h = 0;
 			renderlog ~= RenderState(dom.name, a, direction, 2, nestingLevel);
 			a.x += area.padding;
 			a.y += area.padding;
-			a.w -= area.padding*2;
-			a.h -= area.padding*2;
+			a.w -= area.padding*2; if (a.w < 0) a.w = 0;
+			a.h -= area.padding*2; if (a.h < 0) a.h = 0;
 			renderlog ~= RenderState(dom.name, a, direction, 3, nestingLevel);
 
 			import std.math : isNaN;
