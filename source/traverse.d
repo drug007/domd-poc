@@ -4,6 +4,7 @@ import std.traits : isDynamicArray, isIntegral, isFloatingPoint, isBoolean, isSo
 
 enum isLeaf(T) = is(T == enum) || isIntegral!T || isFloatingPoint!T || isBoolean!T || isSomeString!T;
 enum isNode(T) = is(T == struct) || isDynamicArray!T;
+alias Identity(alias A) = A;
 
 auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data)(ref Ctx ctx, ref Data data)
 {
@@ -63,9 +64,11 @@ auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data, Model
 				ctx.area.w = ctx.xWidgetRange[$-1].front[1];
 				ctx.area.y = ctx.yWidgetRange[$-1].front[0];
 				ctx.area.h = ctx.yWidgetRange[$-1].front[1];
-				static if (!isType!(__traits(getMember, data, memberName)))
+
+				alias member = Identity!(__traits(getMember, data, memberName));
+				static if (!isType!member)
 				{
-					traverseImpl!(leaf, nodeEnter, nodeLeave)(ctx, __traits(getMember, data, memberName), childs.front);
+					traverseImpl!(leaf, nodeEnter, nodeLeave)(ctx, mixin("data."~memberName), childs.front);
 					childs.popFront;
 					ctx.xWidgetRange[$-1].popFront;
 					ctx.yWidgetRange[$-1].popFront;
