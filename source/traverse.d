@@ -14,7 +14,7 @@ auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data)(ref C
 	}
 	else static if (isNode!(Data))
 	{
-		ctx.nestingLevel++;
+		static if (is(ctx.nestingLevel)) ctx.nestingLevel++;
 		nodeEnter(ctx, data);
 
 		static if (is(Data == struct))
@@ -31,7 +31,7 @@ auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data)(ref C
 		}
 
 		nodeLeave(ctx, data);
-		ctx.nestingLevel--;
+		static if (is(ctx.nestingLevel)) ctx.nestingLevel--;
 	}
 	else
 		static assert(0);
