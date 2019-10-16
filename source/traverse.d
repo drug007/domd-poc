@@ -37,6 +37,28 @@ auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data)(ref C
 		static assert(0);
 }
 
+/// there are childs having no corresponding dom nodes
+/// so we need ability to count child count using data only
+/// without dom
+auto childCount(Data)(Data data)
+{
+	import meta;
+
+	static if (isNode!(Data))
+	{
+		static if (is(Data == struct))
+		{
+			return ProcessableMembers!Data.length;
+		}
+		else static if (isDynamicArray!(Data))
+		{
+			return data.length;
+		}
+		else
+			static assert(0);
+	}
+}
+
 auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data, Model)(ref Ctx ctx, ref Data data, ref Model model)
 {
 	static if (isLeaf!(Data))

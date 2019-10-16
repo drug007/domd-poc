@@ -14,18 +14,12 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 	}
 
 	Data data;
-
-	auto root = new DomNode(false, null);
+	auto root = makeDom(data);
 	{
-		import common : Direction;
-
-		root.name = "root";
-		root.attributes.direction = Direction.column;
+		// root.attributes.direction = Direction.column;
 		root.attributes.margin = 200;
 		root.attributes.padding = 300;
 	}
-
-	writeln;
 
 	import walker : Walker;
 
@@ -44,8 +38,8 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 	auto log = walker.renderlog;
 	log.each!writeln;
 
-	assert(log.front.name == "root");
-	// assert(log.front.area == WorkArea(0, 0, 640, 480, 40, 60));
+	assert(log.front.name == "Data");
+	assert(log.front.area == WorkArea(0, 0, 640, 480, 200, 300));
 	assert(log.front.direction == Direction.column);
 }
 
@@ -53,7 +47,7 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 {
 	import std.stdio;
 	import std.array : front;
-	import common : makeDom, DomNode, printDom;
+	import common : makeDom, DomNode, printDom, Direction;
 
 	static struct Data
 	{
@@ -89,6 +83,14 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 			root_item3.name = "root.item3";
 		}
 	}
+
+	auto root2 = makeDom(data);
+	root2.attributes.direction = Direction.column;
+	import std.stdio;
+	writeln(root2.name);
+	writeln(root2.attributes);
+	writeln(root2.child);
+	assert(root2 == root);
 
 	writeln;
 
