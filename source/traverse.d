@@ -56,7 +56,7 @@ auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data, Model
 		static if (is(Data == struct))
 		{
 			import std.traits : isType;
-			auto childs = model.child;
+			auto childs = model.child.length ? model.child : [model];
 
 			foreach(memberName; __traits(allMembers, Data))
 			{
@@ -69,7 +69,7 @@ auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data, Model
 				static if (!isType!member)
 				{
 					traverseImpl!(leaf, nodeEnter, nodeLeave)(ctx, mixin("data."~memberName), childs.front);
-					childs.popFront;
+					model.child.length ? childs.popFront : {};
 					ctx.xWidgetRange[$-1].popFront;
 					ctx.yWidgetRange[$-1].popFront;
 				}
