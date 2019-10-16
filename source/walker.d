@@ -80,6 +80,22 @@ struct Walker
 	import std.stdio;
 	import traverse;
 
+	@disable this();
+
+	this(int w, int h)
+	{
+		area.x = area.y = 0;
+		area.w = w;
+		area.h = h;
+		area.margin = 10;
+		area.padding = 10;
+
+		direction = Direction.column;
+		alignment = Alignment.stretch;
+		justification = Justification.around;
+		wrapping = false;
+	}
+
 	auto render(Data, Dom)(Data data, Dom dom)
 	{
 		assert(dom);

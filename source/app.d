@@ -11,7 +11,6 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 
 	static struct Data
 	{
-		// string item0 = "item0", item1 = "item1", item2 = "item2", item3 = "item3";
 	}
 
 	Data data;
@@ -29,25 +28,9 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 	writeln;
 
 	import walker : Walker;
-	import common : Direction, Alignment, Justification;
-	Walker walker;
-	with (walker)
-	{
-		with(area)
-		{
-			x = y = 0;
-			w = 640;
-			h = 480;
-			margin = 10;
-			padding = 10;
-		}
-		direction = Direction.column;
-		alignment = Alignment.stretch;
-		justification = Justification.around;
-		wrapping = false;
-	}
+
+	auto walker = Walker(640, 480);
 	walker.render(data, root);
-	writeln;
 
 	walker.renderlog.render("single");
 
@@ -110,25 +93,9 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 	writeln;
 
 	import walker : Walker;
-	import common : Direction, Alignment, Justification;
-	Walker walker;
-	with (walker)
-	{
-		with(area)
-		{
-			x = y = 0;
-			w = 640;
-			h = 480;
-			margin = 10;
-			padding = 10;
-		}
-		direction = Direction.column;
-		alignment = Alignment.stretch;
-		justification = Justification.around;
-		wrapping = false;
-	}
+
+	auto walker = Walker(640, 480);
 	walker.render(data, root);
-	writeln;
 
 	walker.renderlog.render("itemInColumn");
 
@@ -218,23 +185,8 @@ void itemInRow(Flag!"runTest" runTest = Yes.runTest)
 
 	import walker : Walker;
 	import common : Direction, Alignment, Justification;
-	Walker walker;
-	with (walker)
-	{
-		with(area)
-		{
-			x = y = 0;
-			w = 640;
-			h = 480;
-			margin = 10;
-		}
-		direction = Direction.row;
-		alignment = Alignment.stretch;
-		justification = Justification.around;
-		wrapping = false;
-	}
+	auto walker = Walker(640, 480);
 	walker.render(data, root);
-	writeln;
 
 	walker.renderlog.render("itemInRow");
 
@@ -425,22 +377,8 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 
 	import walker : Walker;
 	import common : Direction, Alignment, Justification;
-	Walker walker;
-	with (walker)
-	{
-		with(area)
-		{
-			x = y = 0;
-			w = 640;
-			h = 480;
-		}
-		direction = Direction.column;
-		alignment = Alignment.stretch;
-		justification = Justification.around;
-		wrapping = false;
-	}
+	auto walker = Walker(640, 480);
 	walker.render(data2, root);
-	writeln;
 
 	walker.renderlog.render("complexCase");
 
