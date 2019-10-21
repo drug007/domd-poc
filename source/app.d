@@ -10,8 +10,8 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 	import common : makeDom, DomNode, printDom, Direction, Margin, Padding;
 
 	@(Direction.column)
-	@Margin(200)
-	@Padding(300)
+	@Margin(20)
+	@Padding(30)
 	static struct Data
 	{
 	}
@@ -37,7 +37,7 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 	log.each!writeln;
 
 	assert(log.front.name == "Data");
-	assert(log.front.area == WorkArea(0, 0, 640, 480, 200, 300));
+	assert(log.front.area == WorkArea(0, 0, 640, 480, 20, 30));
 	assert(log.front.direction == Direction.column);
 }
 
