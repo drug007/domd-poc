@@ -149,6 +149,18 @@ auto domNodeLeave(Context, Data)(ref Context ctx, Data data)
 	ctx.current.popBack;
 }
 
+void printDom(Node)(Node mn)
+{
+	static struct Context
+	{
+		int indent;
+	}
+
+	Context ctx;
+
+	printDom(ctx, mn);
+}
+
 void printDom(Context, Node)(ref Context ctx, Node mn)
 {
 	import std.stdio;
