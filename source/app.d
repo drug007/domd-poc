@@ -48,6 +48,7 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 	import std.stdio;
 	import std.array : front;
 	import common : makeDom, DomNode, printDom, Direction;
+	import walker : Walker;
 
 	static struct Data
 	{
@@ -56,45 +57,8 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 
 	Data data;
 
-	auto root = new DomNode(false, null);
-	{
-		import common : Direction;
-
-		root.name = "root";
-		root.attributes.direction = Direction.column;
-		auto root_item0 = new DomNode(false, null);
-		{
-			root.child ~= root_item0; 
-			root_item0.name = "root.item0";
-		}
-		auto root_item1 = new DomNode(false, null);
-		{
-			root.child ~= root_item1; 
-			root_item1.name = "root.item1";
-		}
-		auto root_item2 = new DomNode(false, null);
-		{
-			root.child ~= root_item2; 
-			root_item2.name = "root.item2";
-		}
-		auto root_item3 = new DomNode(false, null);
-		{
-			root.child ~= root_item3; 
-			root_item3.name = "root.item3";
-		}
-	}
-
-	auto root2 = makeDom(data);
-	root2.attributes.direction = Direction.column;
-	import std.stdio;
-	writeln(root2.name);
-	writeln(root2.attributes);
-	writeln(root2.child);
-	assert(root2 == root);
-
-	writeln;
-
-	import walker : Walker;
+	auto root = makeDom(data);
+	root.attributes.direction = Direction.column;
 
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
@@ -144,7 +108,8 @@ void itemInRow(Flag!"runTest" runTest = Yes.runTest)
 {
 	import std.stdio;
 	import std.array : front;
-	import common : makeDom, DomNode, printDom;
+	import common : makeDom, DomNode, printDom, Direction;
+	import walker : Walker;
 
 	static struct Data
 	{
@@ -153,40 +118,10 @@ void itemInRow(Flag!"runTest" runTest = Yes.runTest)
 
 	Data data;
 
-	auto root = new DomNode(false, null);
-	{
-		import common : Direction;
-
-		root.name = "root";
-		root.attributes.direction = Direction.row;
-		root.attributes.margin = 20;
-		root.attributes.padding = 30;
-		auto root_item0 = new DomNode(false, null);
-		{
-			root.child ~= root_item0; 
-			root_item0.name = "root.item0";
-		}
-		auto root_item1 = new DomNode(false, null);
-		{
-			root.child ~= root_item1; 
-			root_item1.name = "root.item1";
-		}
-		auto root_item2 = new DomNode(false, null);
-		{
-			root.child ~= root_item2; 
-			root_item2.name = "root.item2";
-		}
-		auto root_item3 = new DomNode(false, null);
-		{
-			root.child ~= root_item3; 
-			root_item3.name = "root.item3";
-		}
-	}
-
-	writeln;
-
-	import walker : Walker;
-	import common : Direction, Alignment, Justification;
+	auto root = makeDom(data);
+	root.attributes.direction = Direction.row;
+	root.attributes.margin = 20;
+	root.attributes.padding = 30;
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
 
