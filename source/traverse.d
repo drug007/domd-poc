@@ -57,6 +57,8 @@ auto childCount(Data)(Data data)
 		else
 			static assert(0);
 	}
+	else
+		return 0;
 }
 
 auto traverseImpl(alias leaf, alias nodeEnter, alias nodeLeave, Ctx, Data, Model)(ref Ctx ctx, ref Data data, ref Model model)

@@ -172,7 +172,7 @@ struct Walker
 			final switch (direction)
 			{
 				case Direction.row:
-					xWidgetRange ~= WidgetRange(area.x, area.margin + area.padding, area.w, dom.child.length);
+					xWidgetRange ~= WidgetRange(area.x, area.margin + area.padding, area.w, childCount(data));
 					yWidgetRange ~= WidgetRange(area.y, area.margin + area.padding, area.h, 0);
 					break;
 				case Direction.rowReverse:
@@ -180,7 +180,7 @@ struct Walker
 					// break;
 				case Direction.column:
 					xWidgetRange ~= WidgetRange(area.x, area.margin + area.padding, area.w, 0);
-					yWidgetRange ~= WidgetRange(area.y, area.margin + area.padding, area.h, dom.child.length);
+					yWidgetRange ~= WidgetRange(area.y, area.margin + area.padding, area.h, childCount(data));
 					break;
 				case Direction.columnReverse:
 					assert(0, "not implemented");
