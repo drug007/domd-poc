@@ -43,6 +43,16 @@ enum Justification {
 	between, // like `around` except that it doesn't leave any space at either end.
 }
 
+struct Margin
+{
+	int margin;
+}
+
+struct Padding
+{
+	int padding;
+}
+
 struct WorkArea
 {
 	invariant
@@ -141,6 +151,13 @@ auto domNodeEnter(Context, Data)(ref Context ctx, Data data)
 	node.name = typeof(data).stringof;
 	ctx.current.back.child ~= node;
 	ctx.current ~= node;
+	import std.traits : hasUDA, getUDAs;
+	static if (hasUDA!(Data, Direction))
+		node.attributes.direction = getUDAs!(Data, Direction)[0];
+	static if (hasUDA!(Data, Margin))
+		node.attributes.margin = getUDAs!(Data, Margin)[0].margin;
+	static if (hasUDA!(Data, Padding))
+		node.attributes.padding = getUDAs!(Data, Padding)[0].padding;
 }
 
 auto domNodeLeave(Context, Data)(ref Context ctx, Data data)

@@ -7,19 +7,17 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 {
 	import std.stdio;
 	import std.array : front;
-	import common : makeDom, DomNode, printDom;
+	import common : makeDom, DomNode, printDom, Direction, Margin, Padding;
 
+	@(Direction.column)
+	@Margin(200)
+	@Padding(300)
 	static struct Data
 	{
 	}
 
 	Data data;
 	auto root = makeDom(data);
-	{
-		// root.attributes.direction = Direction.column;
-		root.attributes.margin = 200;
-		root.attributes.padding = 300;
-	}
 
 	import walker : Walker;
 
@@ -50,15 +48,14 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 	import common : makeDom, DomNode, printDom, Direction;
 	import walker : Walker;
 
+	@(Direction.column)
 	static struct Data
 	{
 		string item0 = "item0", item1 = "item1", item2 = "item2", item3 = "item3";
 	}
 
 	Data data;
-
 	auto root = makeDom(data);
-	root.attributes.direction = Direction.column;
 
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
@@ -170,8 +167,9 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 {
 	import std.stdio;
 	import std.array : front;
-	import common : makeDom, DomNode, printDom;
+	import common : makeDom, DomNode, printDom, Direction, Margin;
 
+	@(Direction.column)
 	static struct Data
 	{
 		struct Child0
@@ -181,8 +179,11 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 
 		Child0 child0;
 
+		@(Direction.row)
 		struct Child1
 		{
+			@(Direction.column)
+			@(Margin(20))
 			struct Panel0
 			{
 				struct Image
@@ -202,6 +203,7 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 
 			Panel0 panel0;
 
+			@(Direction.column)
 			struct Panel1
 			{
 				struct Text
@@ -211,6 +213,7 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 
 				Text text;
 
+				@(Direction.row)
 				struct Panel
 				{
 					struct Ok
@@ -237,85 +240,12 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 		Child1 child1;
 	}
 
-	Data data2;
-
-	auto root = new DomNode(false, null);
-	{
-		import common : Direction;
-
-		root.name = "root";
-		root.attributes.direction = Direction.column;
-		root.attributes.margin = 10;
-		root.attributes.padding = 10;
-		auto root_child0 = new DomNode(false, null);
-		{
-			root.child ~= root_child0; 
-			root_child0.name = "root.child0";
-		}
-		auto root_child1 = new DomNode(false, null);
-		{
-			root.child ~= root_child1;
-			root_child1.name = "root.child1";
-			root_child1.attributes.direction = Direction.row;
-
-			auto root_child1_panel0 = new DomNode(false, null);
-			{
-				root_child1.child ~= root_child1_panel0;
-				root_child1_panel0.name = "root.child1.panel0";
-				root_child1_panel0.attributes.direction = Direction.column;
-				root_child1_panel0.attributes.margin = 20;
-
-				auto image = new DomNode(false, null);
-				{
-					root_child1_panel0.child ~= image;
-					image.name = "root.child1.panel0.image";
-				}
-				auto text = new DomNode(false, null);
-				{
-					root_child1_panel0.child ~= text;
-					text.name = "root.child1.panel0.text";
-				}
-			}
-			auto root_child1_panel1 = new DomNode(false, null);
-			{
-				root_child1.child ~= root_child1_panel1;
-				root_child1_panel1.name = "root.child1.panel1";
-				root_child1_panel1.attributes.direction = Direction.column;
-
-				auto text = new DomNode(false, null);
-				{
-					root_child1_panel1.child ~= text;
-					text.name = "root.child1.panel1.text";
-				}
-
-				auto panel = new DomNode(false, null);
-				{
-					root_child1_panel1.child ~= panel;
-					panel.name = "root.child1.panel1.panel";
-					panel.attributes.direction = Direction.row;
-
-					auto ok = new DomNode(false, null);
-					{
-						panel.child ~= ok;
-						ok.name = "root.child1.panel1.panel.ok";
-					}
-
-					auto cancel = new DomNode(false, null);
-					{
-						panel.child ~= cancel;
-						cancel.name = "root.child1.panel1.panel.cancel";
-					}
-				}
-			}
-		}
-	}
-
-	writeln;
+	Data data;
 
 	import walker : Walker;
 	import common : Direction, Alignment, Justification;
 	auto walker = Walker(640, 480);
-	walker.render(data2, root);
+	walker.render(data, makeDom(data));
 
 	walker.renderlog.render("complexCase");
 
