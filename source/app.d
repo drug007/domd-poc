@@ -1,7 +1,6 @@
 module app;
 
 import std.typecons : Flag, Yes, No;
-import renderer : render;
 
 void singleItem(Flag!"runTest" runTest = Yes.runTest)
 {
@@ -23,22 +22,6 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
-
-	walker.renderlog.render("single");
-
-	if (!runTest)
-		return;
-
-	import std.algorithm : each;
-	import std.array : popFront;
-	import common;
-
-	auto log = walker.renderlog;
-	log.each!writeln;
-
-	assert(log.front.name == "Data");
-	assert(log.front.area == WorkArea(0, 0, 640, 480, 20, 30));
-	assert(log.front.direction == Direction.column);
 }
 
 void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
@@ -59,46 +42,6 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
-
-	walker.renderlog.render("itemInColumn");
-
-	if (!runTest)
-		return;
-
-	import std.array : popFront;
-	import common;
-
-	auto log = walker.renderlog;
-
-	assert(log.front.name == "root");
-	assert(log.front.area == WorkArea(0, 0, 640, 480, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item0");
-	assert(log.front.area == WorkArea(10, 10, 620, 115, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item1");
-	assert(log.front.area == WorkArea(10, 125, 620, 115, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item2");
-	assert(log.front.area == WorkArea(10, 240, 620, 115, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item3");
-	assert(log.front.area == WorkArea(10, 355, 620, 115, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
 }
 
 void itemInRow(Flag!"runTest" runTest = Yes.runTest)
@@ -121,46 +64,6 @@ void itemInRow(Flag!"runTest" runTest = Yes.runTest)
 	root.attributes.padding = 30;
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
-
-	walker.renderlog.render("itemInRow");
-
-	if (!runTest)
-		return;
-
-	import std.array : popFront;
-	import common;
-
-	auto log = walker.renderlog;
-
-	assert(log.front.name == "root");
-	assert(log.front.area == WorkArea(0, 0, 640, 480, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item0");
-	assert(log.front.area == WorkArea(10, 10, 155, 460, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item1");
-	assert(log.front.area == WorkArea(165, 10, 155, 460, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item2");
-	assert(log.front.area == WorkArea(320, 10, 155, 460, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.item3");
-	assert(log.front.area == WorkArea(475, 10, 155, 460, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
 }
 
 void complexCase(Flag!"runTest" runTest = Yes.runTest)
@@ -246,81 +149,6 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 	import common : Direction, Alignment, Justification;
 	auto walker = Walker(640, 480);
 	walker.render(data, makeDom(data));
-
-	walker.renderlog.render("complexCase");
-
-	if (!runTest)
-		return;
-
-	import std.array : popFront;
-	import common;
-
-	auto log = walker.renderlog;
-	assert(log.front.name == "root");
-	assert(log.front.area == WorkArea(0, 0, 640, 480, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child0");
-	assert(log.front.area == WorkArea(10, 10, 620, 230, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1");
-	assert(log.front.area == WorkArea(10, 240, 620, 230, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel0");
-	assert(log.front.area == WorkArea(20, 250, 300, 210, 20));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel0.image");
-	assert(log.front.area == WorkArea(40, 270, 260, 85, 20));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel0.text");
-	assert(log.front.area == WorkArea(40, 355, 260, 85, 20));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel1");
-	assert(log.front.area == WorkArea(320, 250, 300, 210, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel1.text");
-	assert(log.front.area == WorkArea(330, 260, 280, 95, 10));
-	assert(log.front.direction == Direction.column);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel1.panel");
-	assert(log.front.area == WorkArea(330, 355, 280, 95, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel1.panel.ok");
-	assert(log.front.area == WorkArea(340, 365, 130, 75, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
-
-	assert(log.front.name == "root.child1.panel1.panel.cancel");
-	assert(log.front.area == WorkArea(470, 365, 130, 75, 10));
-	assert(log.front.direction == Direction.row);
-	log.popFront;
-	log.popFront;
 }
 
 void main()

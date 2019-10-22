@@ -93,20 +93,6 @@ struct Attributes
 	}
 }
 
-/// Full description of current renderer state
-/// for debug use
-struct RenderState
-{
-	// node(widget) name
-	string name;
-	WorkArea area;
-	Direction direction;
-
-	// for debug purposes
-	long misc;
-	int nestingLevel;
-}
-
 class DomNode
 {
 	bool state;

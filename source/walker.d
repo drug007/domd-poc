@@ -74,8 +74,6 @@ struct Walker
 
 	// for debug output in console
 	string indentPrefix;
-	// for debug rendering
-	RenderState[] renderlog;
 
 	import std.stdio;
 	import traverse;
@@ -123,19 +121,6 @@ struct Walker
 				area.margin = dom.attributes.margin.get;
 			if (!dom.attributes.padding.isNull)
 				area.padding = dom.attributes.padding.get;
-
-			renderlog ~= RenderState(dom.name, area, direction, 1, nestingLevel);
-			auto a = area;
-			a.x += area.margin;
-			a.y += area.margin;
-			a.w -= area.margin*2;
-			a.h -= area.margin*2;
-			renderlog ~= RenderState(dom.name, a, direction, 2, nestingLevel);
-			a.x += area.padding;
-			a.y += area.padding;
-			a.w -= area.padding*2;
-			a.h -= area.padding*2;
-			renderlog ~= RenderState(dom.name, a, direction, 3, nestingLevel);
 		}
 	}
 
@@ -153,19 +138,6 @@ struct Walker
 				area.margin = dom.attributes.margin.get;
 			if (!dom.attributes.padding.isNull)
 				area.padding = dom.attributes.padding.get;
-
-			renderlog ~= RenderState(dom.name, area, direction, 1, nestingLevel);
-			auto a = area;
-			a.x += area.margin;
-			a.y += area.margin;
-			a.w -= area.margin*2; if (a.w < 0) a.w = 0;
-			a.h -= area.margin*2; if (a.h < 0) a.h = 0;
-			renderlog ~= RenderState(dom.name, a, direction, 2, nestingLevel);
-			a.x += area.padding;
-			a.y += area.padding;
-			a.w -= area.padding*2; if (a.w < 0) a.w = 0;
-			a.h -= area.padding*2; if (a.h < 0) a.h = 0;
-			renderlog ~= RenderState(dom.name, a, direction, 3, nestingLevel);
 
 			import std.math : isNaN;
 			assert(!area.margin.isNaN);
