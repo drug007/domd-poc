@@ -13,3 +13,15 @@ treeview-test-*
 *.o
 *.obj
 *.lst
+/complexCase.html
+/complexCase.pdf
+/complexCase.svg
+/itemInColumn.html
+/itemInColumn.pdf
+/itemInColumn.svg
+/itemInRow.html
+/itemInRow.pdf
+/itemInRow.svg
+/single.html
+/single.pdf
+/single.svg
