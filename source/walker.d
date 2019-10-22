@@ -129,7 +129,7 @@ struct Walker
 
 			import draw_command : DrawRect;
 			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(238, 238, 238, 255), true));
-			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(0, 255, 0, 255), false));
+			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(176, 176, 176, 255), false));
 			auto a = area;
 			a.x += area.margin;
 			a.y += area.margin;
@@ -141,6 +141,15 @@ struct Walker
 			a.w -= area.padding*2; if (a.w < 0) a.w = 0;
 			a.h -= area.padding*2; if (a.h < 0) a.h = 0;
 			cmd_buf ~= DrawCommand(DrawRect(Rect(a.x, a.y, a.w, a.h), Color(192, 192, 192, 255), true));
+
+			import std.traits : isSomeString;
+			import draw_command : DrawText;
+			static if (isSomeString!Data)
+			{
+				a.x += a.w / 2;
+				a.y += a.h / 2;
+				cmd_buf ~= DrawCommand(DrawText(a.x, a.y, data));
+			}
 		}
 	}
 
@@ -161,7 +170,7 @@ struct Walker
 				area.padding = dom.attributes.padding.get;
 
 			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(238, 238, 238, 255), true));
-			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(0, 255, 0, 255), false));
+			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(176, 176, 176, 255), false));
 			auto a = area;
 			a.x += area.margin;
 			a.y += area.margin;

@@ -43,7 +43,11 @@ private void renderTo(DrawCommand[] cmd_buf, IRenderingContext2D ctx)
 					}
 				break;
 				case DrawCommand.Kind.draw_text:
-					assert(0);
+					fillStyle = brush(0, 0, 0);
+					textAlign(TextAlign.center);
+					textBaseline(TextBaseline.middle);
+					fillText(rs.str, rs.x*k, rs.y*k);
+				break;
 			}
 		}
 	}

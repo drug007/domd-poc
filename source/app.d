@@ -86,14 +86,16 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 {
 	import std.stdio;
 	import std.array : front;
-	import common : makeDom, DomNode, printDom, Direction, Margin;
+	import common : makeDom, DomNode, printDom, Direction, Margin, Padding;
 
 	@(Direction.column)
 	static struct Data
 	{
+		@Margin(0)
+		@Padding(0)
 		struct Child0
 		{
-
+			string item = "some long text";
 		}
 
 		Child0 child0;
@@ -133,21 +135,11 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 				Text text;
 
 				@(Direction.row)
+				@Margin(5)
+				@Padding(5)
 				struct Panel
 				{
-					struct Ok
-					{
-
-					}
-
-					Ok ok;
-
-					struct Cancel
-					{
-
-					}
-
-					Cancel cancel;
+					string ok = "ok", cancel = "cancel";
 				}
 
 				Panel panel;
