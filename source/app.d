@@ -1,6 +1,7 @@
 module app;
 
 import std.typecons : Flag, Yes, No;
+import renderer : render;
 
 void singleItem(Flag!"runTest" runTest = Yes.runTest)
 {
@@ -22,6 +23,11 @@ void singleItem(Flag!"runTest" runTest = Yes.runTest)
 
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
+
+	walker.cmd_buf.render("single");
+
+	if (!runTest)
+		return;
 }
 
 void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
@@ -42,6 +48,11 @@ void itemInColumn(Flag!"runTest" runTest = Yes.runTest)
 
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
+
+	walker.cmd_buf.render("itemInColumn");
+
+	if (!runTest)
+		return;
 }
 
 void itemInRow(Flag!"runTest" runTest = Yes.runTest)
@@ -64,6 +75,11 @@ void itemInRow(Flag!"runTest" runTest = Yes.runTest)
 	root.attributes.padding = 30;
 	auto walker = Walker(640, 480);
 	walker.render(data, root);
+
+	walker.cmd_buf.render("itemInRow");
+
+	if (!runTest)
+		return;
 }
 
 void complexCase(Flag!"runTest" runTest = Yes.runTest)
@@ -149,6 +165,11 @@ void complexCase(Flag!"runTest" runTest = Yes.runTest)
 	import common : Direction, Alignment, Justification;
 	auto walker = Walker(640, 480);
 	walker.render(data, makeDom(data));
+
+	walker.cmd_buf.render("complexCase");
+
+	if (!runTest)
+		return;
 }
 
 void main()

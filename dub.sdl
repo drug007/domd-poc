@@ -5,3 +5,4 @@ copyright "Copyright © 2019, drug007"
 license "BSL"
 
 dependency "printed" version="~>0.0.12"
+dependency "taggedalgebraic" version="~>0.11.5"

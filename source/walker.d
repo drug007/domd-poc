@@ -62,6 +62,7 @@ struct WidgetRange
 
 struct Walker
 {
+	import draw_command : DrawCommand;
 	WorkArea area;
 	auto direction = Direction.row;
 	auto alignment = Alignment.stretch;
@@ -74,6 +75,7 @@ struct Walker
 
 	// for debug output in console
 	string indentPrefix;
+	DrawCommand[] cmd_buf;
 
 	import std.stdio;
 	import traverse;
@@ -105,6 +107,9 @@ struct Walker
 		if (area.padding.isNaN)
 			area.padding = 0;
 
+		import draw_command : SetViewport;
+		cmd_buf ~= DrawCommand(SetViewport(area.w, area.h));
+
 		traverseImpl!(leaf, nodeEnter, nodeLeave)(this, data, dom);
 	}
 
@@ -121,11 +126,27 @@ struct Walker
 				area.margin = dom.attributes.margin.get;
 			if (!dom.attributes.padding.isNull)
 				area.padding = dom.attributes.padding.get;
+
+			import draw_command : DrawRect;
+			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(238, 238, 238, 255), true));
+			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(0, 255, 0, 255), false));
+			auto a = area;
+			a.x += area.margin;
+			a.y += area.margin;
+			a.w -= area.margin*2; if (a.w < 0) a.w = 0;
+			a.h -= area.margin*2; if (a.h < 0) a.h = 0;
+			cmd_buf ~= DrawCommand(DrawRect(Rect(a.x, a.y, a.w, a.h), Color(208, 208, 208, 255), true));
+			a.x += area.padding;
+			a.y += area.padding;
+			a.w -= area.padding*2; if (a.w < 0) a.w = 0;
+			a.h -= area.padding*2; if (a.h < 0) a.h = 0;
+			cmd_buf ~= DrawCommand(DrawRect(Rect(a.x, a.y, a.w, a.h), Color(192, 192, 192, 255), true));
 		}
 	}
 
 	static auto nodeEnter(Data, Dom)(ref typeof(this) ctx, Data data, Dom dom)
 	{
+		import draw_command : DrawRect;
 		with(ctx)
 		{
 			writeln(indentPrefix, data);
@@ -138,6 +159,20 @@ struct Walker
 				area.margin = dom.attributes.margin.get;
 			if (!dom.attributes.padding.isNull)
 				area.padding = dom.attributes.padding.get;
+
+			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(238, 238, 238, 255), true));
+			cmd_buf ~= DrawCommand(DrawRect(Rect(area.x, area.y, area.w, area.h), Color(0, 255, 0, 255), false));
+			auto a = area;
+			a.x += area.margin;
+			a.y += area.margin;
+			a.w -= area.margin*2; if (a.w < 0) a.w = 0;
+			a.h -= area.margin*2; if (a.h < 0) a.h = 0;
+			cmd_buf ~= DrawCommand(DrawRect(Rect(a.x, a.y, a.w, a.h), Color(208, 208, 208, 255), true));
+			a.x += area.padding;
+			a.y += area.padding;
+			a.w -= area.padding*2; if (a.w < 0) a.w = 0;
+			a.h -= area.padding*2; if (a.h < 0) a.h = 0;
+			cmd_buf ~= DrawCommand(DrawRect(Rect(a.x, a.y, a.w, a.h), Color(192, 192, 192, 255), true));
 
 			import std.math : isNaN;
 			assert(!area.margin.isNaN);

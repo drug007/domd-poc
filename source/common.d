@@ -53,6 +53,16 @@ struct Padding
 	int padding;
 }
 
+struct Rect
+{
+	float x, y, w, h;
+}
+
+struct Color
+{
+	ubyte r, g, b, a;
+}
+
 struct WorkArea
 {
 	invariant
